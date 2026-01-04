@@ -1,0 +1,57 @@
+<h2>Billing Page</h2>
+
+<p>
+  <strong>Customer Email:</strong>
+  <%= @purchase.customer.email %>
+</p>
+
+<hr>
+
+<h3>Bill Section</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Product ID</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Purchase Price</th>
+      <th>Tax</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @purchase.purchase_items.each do |item| %>
+      <tr>
+        <td><%= item.product.product_code %></td>
+        <td><%= item.unit_price %></td>
+        <td><%= item.quantity %></td>
+        <td><%= item.unit_price * item.quantity %></td>
+        <td><%= item.tax_amount %></td>
+        <td><%= item.total_price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<p><strong>Total price without tax:</strong> <%= @purchase.total_without_tax %></p>
+<p><strong>Total tax payable:</strong> <%= @purchase.total_tax %></p>
+<p><strong>Net price of the purchased items:</strong> <%= @purchase.total_with_tax %></p>
+<p><strong>Rounded down value of purchased items net price:</strong> <%= @purchase.rounded_total %></p>
+<p><strong>Balance payable to the customer:</strong> <%= @purchase.balance_amount %></p>
+
+<hr>
+
+<h3>Balance Denomination</h3>
+
+<table cellpadding="6">
+  <% @purchase.balance_denominations.each do |bd| %>
+    <tr>
+      <td><%= bd.denomination_value %></td>
+      <td>: <%= bd.count %></td>
+    </tr>
+  <% end %>
+</table>

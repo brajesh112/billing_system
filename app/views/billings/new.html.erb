@@ -1,0 +1,84 @@
+<hr>
+
+<h4>View Previous Purchases</h4>
+
+<%= form_with url: customers_path, method: :get do %>
+  <input type="email" name="email" placeholder="Customer Email" required>
+  <button type="submit">View History</button>
+<% end %>
+
+<hr>
+
+<%= form_with model: @billing_form, url: billings_path, data: { controller: "billing" } do |f| %>
+  <%= f.label :customer_email, "Customer Email" %>
+  <%= f.email_field :customer_email, required: true, placeholder: "Email ID" %>
+  
+  <br><br>
+
+  <h3>Bill Section</h3>
+
+  <table cellpadding="8" cellspacing="0" style="margin-top: 5px;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>
+          <button type="button" data-action="billing#addItem">
+            Add New
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody data-billing-target="items">
+      <tr>
+        <td>
+          <input type="text"
+                name="billing_form[items][0][product_code]"
+                placeholder="Product ID">
+        </td>
+        <td>
+          <input type="number"
+                name="billing_form[items][0][quantity]"
+                placeholder="Quantity"
+                min="1">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <hr style="margin: 30px 0;">
+
+
+  <h3>Denominations</h3>
+
+  <table cellpadding="6">
+    <% @denominations.each_with_index do |d, i| %>
+      <tr>
+        <td><%= d.value %></td>
+
+        <td>
+          <input type="hidden"
+                name="billing_form[denominations][<%= i %>][value]"
+                value="<%= d.value %>">
+
+          <input type="number"
+                name="billing_form[denominations][<%= i %>][count]"
+                min="0"
+                placeholder="Count">
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+
+  <hr style="margin: 30px 0;">
+
+  <%= f.label :paid_amount, "Cash paid by customer" %>
+  <%= f.number_field :paid_amount, placeholder: "Amount", required: true, min: 0 %>
+
+  <div style="margin-top: 20px; text-align: right;">
+    <%= link_to "Cancel", root_path, style: "margin-right: 10px;" %>
+    <%= f.submit "Generate Bill" %>
+  </div>
+
+<% end %>

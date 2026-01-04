@@ -1,0 +1,54 @@
+<h2>Invoice</h2>
+
+<p>
+  <strong>Customer Email:</strong>
+  <%= @purchase.customer.email %>
+</p>
+
+<hr>
+
+<h3>Items</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Product ID</th>
+      <th>Qty</th>
+      <th>Unit Price</th>
+      <th>Tax</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @purchase.purchase_items.each do |item| %>
+      <tr>
+        <td><%= item.product.product_code %></td>
+        <td><%= item.quantity %></td>
+        <td><%= item.unit_price %></td>
+        <td><%= item.tax_amount %></td>
+        <td><%= item.total_price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<p><strong>Total without tax:</strong> <%= @purchase.total_without_tax %></p>
+<p><strong>Total tax:</strong> <%= @purchase.total_tax %></p>
+<p><strong>Total amount:</strong> <%= @purchase.rounded_total %></p>
+<p><strong>Paid amount:</strong> <%= @purchase.paid_amount %></p>
+<p><strong>Balance returned:</strong> <%= @purchase.balance_amount %></p>
+
+<hr>
+
+<h3>Balance Denominations</h3>
+
+<ul>
+  <% @purchase.balance_denominations.each do |bd| %>
+    <li><%= bd.denomination_value %> : <%= bd.count %></li>
+  <% end %>
+</ul>
+
+<p>Thank you for shopping with us!</p>

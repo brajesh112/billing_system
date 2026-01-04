@@ -1,0 +1,41 @@
+# Billing System – Ruby on Rails
+# ==================================================
+# This project is implemented using Ruby on Rails 8.
+#
+# NOTE FOR EVALUATORS:
+# Ruby on Rails applications manage dependencies using
+# Bundler (Gemfile and Gemfile.lock).
+#
+# This requirements.txt file lists all system-level and
+# Ruby dependencies required to run the project.
+# Actual installation is performed using `bundle install`.
+
+# --------------------------------------------------
+# System Requirements
+# --------------------------------------------------
+ruby == 3.3.5
+bundler >= 2.4.0
+rails == 8.0.4
+postgresql >= 13
+
+# --------------------------------------------------
+# Ruby Gems (installed via Bundler)
+# --------------------------------------------------
+rails
+propshaft
+pg
+puma
+importmap-rails
+turbo-rails
+stimulus-rails
+jbuilder
+tzinfo-data
+bootsnap
+web-console
+letter_opener
+money-rails
+
+# Rails 8 default database-backed adapters (used in production)
+solid_cache
+solid_queue
+solid_cable

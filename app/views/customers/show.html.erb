@@ -1,0 +1,42 @@
+<h2>Purchase History</h2>
+
+<p>
+  <strong>Customer Email:</strong>
+  <%= @customer.email %>
+</p>
+
+<hr>
+
+<h3>Previous Purchases</h3>
+
+<% if @customer.purchases.any? %>
+  <table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Purchase ID</th>
+        <th>Date</th>
+        <th>Total Amount</th>
+        <th>View</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @customer.purchases.order(created_at: :desc).each do |purchase| %>
+        <tr>
+          <td><%= purchase.id %></td>
+          <td><%= purchase.created_at.strftime("%d %b %Y %H:%M") %></td>
+          <td><%= purchase.rounded_total %></td>
+          <td>
+            <%= link_to "View Bill", purchase_path(purchase) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No purchases found for this customer.</p>
+<% end %>
+
+<br>
+
+<%= link_to "Back to Billing", root_path %>

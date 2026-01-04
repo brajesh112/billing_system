@@ -1,0 +1,81 @@
+# This file is auto-generated from the current state of the database. Instead
+# of editing this file, please use the migrations feature of Active Record to
+# incrementally modify your database, and then regenerate this schema definition.
+#
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
+#
+# It's strongly recommended that you check this file into your version control system.
+
+ActiveRecord::Schema[8.0].define(version: 2026_01_04_081654) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
+  create_table "balance_denominations", force: :cascade do |t|
+    t.bigint "purchase_id", null: false
+    t.integer "denomination_value"
+    t.integer "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["purchase_id"], name: "index_balance_denominations_on_purchase_id"
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
+  end
+
+  create_table "denominations", force: :cascade do |t|
+    t.integer "value"
+    t.integer "available_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "product_code", null: false
+    t.integer "stock", default: 0, null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "tax_percentage", precision: 5, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_code"], name: "index_products_on_product_code", unique: true
+  end
+
+  create_table "purchase_items", force: :cascade do |t|
+    t.bigint "purchase_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "tax_amount", precision: 10, scale: 2, null: false
+    t.decimal "total_price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_purchase_items_on_product_id"
+    t.index ["purchase_id"], name: "index_purchase_items_on_purchase_id"
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.decimal "total_without_tax", precision: 10, scale: 2, null: false
+    t.decimal "total_tax", precision: 10, scale: 2, null: false
+    t.decimal "total_with_tax", precision: 10, scale: 2, null: false
+    t.decimal "rounded_total", precision: 10, scale: 2, null: false
+    t.decimal "paid_amount", precision: 10, scale: 2, null: false
+    t.decimal "balance_amount", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_purchases_on_customer_id"
+  end
+
+  add_foreign_key "balance_denominations", "purchases"
+  add_foreign_key "purchase_items", "products"
+  add_foreign_key "purchase_items", "purchases"
+  add_foreign_key "purchases", "customers"
+end
